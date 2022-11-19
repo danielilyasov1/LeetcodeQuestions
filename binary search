@@ -27,6 +27,8 @@ solution:
             end=middle-1
         }
     }
+    if(nums[start]===target) return start //in case there is only one cell in nums
+
     return -1
 };
 
