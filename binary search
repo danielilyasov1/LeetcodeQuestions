@@ -1,0 +1,76 @@
+Algorithm with O(log n) runtime complexity
+ 
+level1:
+
+example1:
+Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4
+Explanation: 9 exists in nums and its index is 4
+
+example2:
+Input: nums = [-1,0,3,5,9,12], target = 2
+Output: -1
+Explanation: 2 does not exist in nums so return -1
+
+solution:
+ var search = function(nums, target) {
+  let start=0
+  let end=nums.length-1
+
+    while(start<end){
+        let middle=Math.floor((start+end)/2)
+        if (nums[middle]===target) return middle
+        if (nums[middle]<target){
+            start=middle+1
+        }
+        if (nums[middle]>target){
+            end=middle-1
+        }
+    }
+    return -1
+};
+
+
+level2: with recursion
+
+example1:
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+
+example2:
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+
+solution:
+var searchRange = function (nums, target) {
+  let start = 0
+  let end = nums.length - 1
+
+  return compare(nums, start, end, target)
+}
+
+function compare(nums, start, end, target) {
+  if (start > end) return [-1, -1]
+  let middle = Math.floor((end + start)/2) 
+  if (nums[middle] === target) {
+    if (nums[start] !== target) {
+      start = compare(nums, start, middle - 1, target)[0]
+      if (start=== -1) start=middle
+    }
+    if (nums[end] !== target) {
+      end = compare(nums, middle + 1, end, target)[1]
+      if (end=== -1) end=middle
+
+    }
+    return [start, end]
+  }
+  if (nums[middle] > target) {
+    end = middle - 1
+    return compare(nums, start, end, target)
+  }
+  if (nums[middle] < target) {
+    start = middle + 1
+    return compare(nums, start, end, target)
+  }
+}
+
