@@ -1,0 +1,45 @@
+example1:
+Input: n = 5, bad = 4
+Output: 4
+Explanation:
+call isBadVersion(3) -> false
+call isBadVersion(5) -> true
+call isBadVersion(4) -> true
+Then 4 is the first bad version.
+
+example2:
+Input: n = 1, bad = 1
+Output: 1
+
+/**
+ * Definition for isBadVersion()
+ * 
+ * @param {integer} version number
+ * @return {boolean} whether the version is bad
+ * isBadVersion = function(version) {
+ *     ...
+ * };
+ */
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+ 
+solution:
+var solution = function(isBadVersion) {
+    
+    return function(n) {
+        let low=0
+        let high=n
+        
+        while(high=>low){
+            let mid = Math.floor((high+low)/2)
+            if (isBadVersion(mid)){
+                if(isBadVersion(mid-1))high=mid-1
+                else return mid
+            } else low=mid+1
+        }
+        
+    };
+};
