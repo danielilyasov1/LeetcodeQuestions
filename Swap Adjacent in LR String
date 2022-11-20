@@ -1,0 +1,50 @@
+In a string composed of 'L', 'R', and 'X' characters, like "RXXLRXRXL", a move consists of either replacing one occurrence of "XL" with "LX", or replacing one occurrence of "RX" with "XR". Given the starting string start and the ending string end, return True if and only if there exists a sequence of moves to transform one string to the other.
+-start.length == end.length
+-Both start and end will only consist of characters in 'L', 'R', and 'X'.
+
+example1:
+Input: start = "RXXLRXRXL", end = "XRLXXRRLX"
+Output: true
+Explanation: We can transform start to end following these steps:
+RXXLRXRXL ->
+XRXLRXRXL ->
+XRLXRXRXL ->
+XRLXXRRXL ->
+XRLXXRRLX
+
+example2:
+Input: start = "X", end = "L"
+Output: false
+
+// We cannot move Rs and Ls past eachother.
+// We cannot move Rs to the left.
+// We cannot move Ls to the right
+
+solution:
+var canTransform = function(start, end) {
+    let i = 0;
+    let j = 0;
+    
+    while (i < start.length || j < end.length) {
+        if (start[i] === 'X') {
+            i++
+            continue
+        }  
+        if (end[j] === 'X') {
+            j++
+            continue
+        }
+        
+		// Breaking (1)
+        if (start[i] !== end[j]) return false
+		// Breaking (2)
+        if (start[i] === 'R' && i > j) return false
+		// Breaking (3)
+        if (start[i] === 'L' && j > i) return false
+        
+        i++
+        j++
+    }
+    
+    return true
+};
