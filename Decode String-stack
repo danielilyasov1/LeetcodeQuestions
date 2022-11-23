@@ -1,0 +1,50 @@
+
+example1:
+Input: s = "3[a]2[bc]"
+Output: "aaabcbc"
+
+example2:
+Input: s = "3[a2[c]]"
+Output: "accaccacc"
+
+example3:
+Input: s = "2[abc]3[cd]ef"
+Output: "abcabccdcdcdef"
+
+solution:
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var decodeString = function(s) {
+    let numStack = []
+    let strStack = []
+    let output=''
+    let tmp=''
+    let num
+    for(let i=0; i<s.length; i++){
+        if(!isNaN(s[i])){                   //if it is a number
+            num=s[i]
+            while(!isNaN(s[i+1])){          //in case the number is more then one digit
+                num+=s[i+1]
+                i++
+            }
+            numStack.push(num)
+        }
+        if(s[i]==='['){
+            strStack.push(output)
+            output=''
+        }
+        if((/[a-zA-Z]/).test(s[i])){          //if it is a letter
+            output=output.concat(s[i])        //concat its like append
+        }
+        if(s[i]===']'){
+            tmp=tmp.concat(strStack.pop())
+            output=output.repeat(numStack.pop())
+            tmp=tmp.concat(output)
+            output=tmp
+            tmp=''
+        }
+    }
+    return output
+};
